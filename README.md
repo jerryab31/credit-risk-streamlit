@@ -44,7 +44,8 @@ File	Description
 app.py	Streamlit UI app
 requirements.txt	Required Python libraries
 credit_risk_model.pkl	Final trained LightGBM model
-notebook.ipynb	Full end-to-end pipeline (EDA → SHAP → Tuning → Model Save)
+top_20_featues.json List of 20 featueres selected using Shap for creating streamlit app
+credit_risk_project_final.ipynb	Full end-to-end pipeline (EDA → SHAP → Tuning → Model Save)
 README.md	Project description (this file)
 
 📦 Dataset
