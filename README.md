@@ -55,5 +55,5 @@ This project uses the Home Credit Default Risk dataset:
 
 The CSV file is not included in this repo to conserve space. Please download it from Kaggle.
 
-🌐 Live Demo
-Coming soon (after deployment on Streamlit Cloud)
+🌐 Live Demo - on Streamlit Cloud
+   🔗https://credit-risk-model-jerryab31.streamlit.app/
