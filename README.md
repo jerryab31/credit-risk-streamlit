@@ -1,59 +1,135 @@
-🧠 Credit Risk Scoring App (Home Credit Dataset)
-This is a Streamlit-based web app that predicts the likelihood of a loan applicant defaulting, using a machine learning pipeline trained on the Home Credit Default Risk dataset from Kaggle.
+🏦 Credit Risk Scoring with Explainable AI
+This project builds a machine learning model to predict the likelihood of a loan applicant defaulting, using the Home Credit Default Risk dataset. The project includes data preprocessing, model training with LightGBM, hyperparameter tuning via Optuna, SHAP explainability, and a Streamlit UI for interactive predictions.
 
-The project incorporates feature selection using SHAP values, hyperparameter tuning using Optuna, and robust validation using cross-validation with out-of-fold predictions.
+📁 Table of Contents
+Overview
 
-🚀 Key Features
-Streamlit UI with interactive inputs (sliders, dropdowns)
+Dataset
 
-LightGBM model trained using top SHAP features only
+Project Structure
 
-Optuna for automated hyperparameter tuning
+Modeling Approach
 
-Stratified K-Fold cross-validation for model evaluation
+Explainability (SHAP)
 
-cross_val_predict used for reliable out-of-fold SHAP analysis
+Streamlit App
 
-Custom threshold tuning to improve recall on defaulters
+How to Run
 
-Model saved using Joblib for fast reloading in app
+Results
 
-Deployed using Streamlit Cloud
+Future Work
 
-🧪 Modeling Overview
-Data: Only application_train.csv from the Kaggle dataset
+License
 
-Preprocessing: Custom ColumnTransformer pipeline with numerical and categorical handling
+🧠 Overview
+Goal: Predict whether a loan applicant will default (1) or repay (0) using historical application data.
+Use Case: Used by credit analysts to make informed lending decisions, reduce risk, and improve financial inclusion.
+Tech Stack: Python, LightGBM, SHAP, Optuna, Pandas, Scikit-learn, Streamlit.
 
-Feature Selection: Based on SHAP importance scores, top 20–40 features retained
+📊 Dataset
+Source: Home Credit Default Risk | Kaggle
 
-Modeling: LightGBM classifier with tuned parameters
+Used File: application_train.csv
 
-Tuning: Hyperparameters tuned using Optuna’s Trial object and cross_val_score
+Other files (like bureau.csv, previous_application.csv, etc.) were not used to simplify the project.
 
-Evaluation:
+Key Columns Used:
+Column	Description
+TARGET	Loan status (1 = default, 0 = repaid)
+CNT_CHILDREN	Number of children
+AMT_INCOME_TOTAL	Applicant's total income
+AMT_CREDIT	Credit amount of the loan
+EXT_SOURCE_1/2/3	External risk scores
+APARTMENTS_AVG, LIVINGAREA_AVG, ...	Housing-related indicators
+FLAG_OWN_CAR, CODE_GENDER, ...	Categorical flags and demographics
 
-AUC as the primary metric
+Final model uses top 40 features selected via SHAP, and the UI version includes a reduced set of 20 features for demo simplicity.
 
-Classification report and confusion matrix
+🧱 Project Structure
+graphql
+Copy
+Edit
+credit-risk-scoring/
+│
+├── app.py                   # Streamlit app
+├── train_model.ipynb        # Colab training notebook
+├── home_credit_model.pkl    # Final trained LightGBM model
+├── README.md                # Project documentation
+└── data/
+    └── application_train.csv
+🧪 Modeling Approach
+Preprocessing using ColumnTransformer for numeric and categorical features
 
-Custom threshold set (e.g., 0.2) to improve recall
+Train-test split using StratifiedShuffleSplit
 
-📁 Files in This Repository
-File	Description
-app.py	Streamlit UI app
-requirements.txt	Required Python libraries
-credit_risk_model.pkl	Final trained LightGBM model
-top_20_featues.json List of 20 featueres selected using Shap for creating streamlit app
-credit_risk_project_final.ipynb	Full end-to-end pipeline (EDA → SHAP → Tuning → Model Save)
-README.md	Project description (this file)
+Model: LightGBM Classifier
 
-📦 Dataset
-This project uses the Home Credit Default Risk dataset:
+Hyperparameter tuning with Optuna
 
-🔗 https://www.kaggle.com/competitions/home-credit-default-risk/data
+Feature importance via SHAP values
 
-The CSV file is not included in this repo to conserve space. Please download it from Kaggle.
+Final model saved using joblib for integration into Streamlit
 
-🌐 Live Demo - on Streamlit Cloud
-   🔗https://credit-risk-model-jerryab31.streamlit.app/
+🔍 Explainability (SHAP)
+We use SHAP (SHapley Additive exPlanations) to:
+
+Identify top contributing features
+
+Visualize individual predictions
+
+Improve model transparency and trust
+
+🌐 Streamlit App
+A simple web app built with Streamlit allows users to:
+
+Input applicant features via sliders and dropdowns
+
+Get instant risk score predictions
+
+See interpretation of prediction using SHAP summary
+
+▶️ How to Run
+1. Clone the repo
+bash
+Copy
+Edit
+git clone https://github.com/yourusername/credit-risk-scoring.git
+cd credit-risk-scoring
+2. Install dependencies
+bash
+Copy
+Edit
+pip install -r requirements.txt
+3. Run the Streamlit app
+bash
+Copy
+Edit
+streamlit run app.py
+4. Or deploy it via GitHub + Streamlit Cloud
+Push repo to GitHub
+
+Go to streamlit.io/cloud
+
+Connect your GitHub repo
+
+Set Python version to 3.9.x
+
+Done!
+
+📈 Results
+Metric	Value
+AUC Score	~0.75
+Accuracy	Depends on threshold
+Recall (1s)	Tuned to prioritize catching defaulters
+Features Used	40 (top SHAP) → 20 (UI)
+
+🔮 Future Work
+Use additional Home Credit files (bureau, previous application, etc.)
+
+Include more advanced ensemble methods
+
+Deploy with Docker or HuggingFace Spaces
+
+📜 License
+This project is licensed under the MIT License.
