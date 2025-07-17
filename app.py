@@ -12,12 +12,14 @@ input_data = {}
 ready = False  # Flag to proceed with prediction
 
 st.title("Credit Risk Scoring App")
+st.caption("Initializing model and loading feature list...")
 st.write("Enter applicant details to predict the probability of default.")
 
 # Load model
 try:
 	model = joblib.load("credit_risk_model_20.pkl")
 	print("Model loaded successfully.")
+	st.caption("Model loaded.")
 except Exception as e:
 	st.error(f"Model load failed: {e}")
 	model = None
@@ -35,14 +37,8 @@ except Exception as e:
 try:
 	for feature in top_20_features:
 		clean_name = feature.split("__")[1]  # Remove transformer prefix like 'num__'
-
-		if feature == "cat__FLAG_OWN_CAR_N":
-			input_data[feature] = st.selectbox("Own Car", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
-
-		elif feature == "cat__CODE_GENDER_F":
-			input_data[feature] = st.selectbox("Gender", options=[0, 1], format_func=lambda x: "Female" if x == 1 else "Male")
-
-		elif "DAYS_BIRTH" in feature:
+		
+		if "DAYS_BIRTH" in feature:
 			age = st.slider("Age (years)", 18, 70, 35)
 			input_data[feature] = -age * 365
 
@@ -70,13 +66,14 @@ try:
 	X_input = pd.DataFrame([input_data], columns=top_20_features)
 	print("Features read and DataFrame Loaded.")
 	print("Input ready.")
+	st.caption("Features captured and input ready.")
 	ready = True
 except Exception as e:
 	st.error(f"Error in collecting features: {e}")
 
 # Predict button
 if st.button("Predict Default Probability"):
-
+	st.caption("Making prediction...")
 	if not ready or model is None or X_input is None:
 		st.error("Cannot run prediction — model or input not ready.")
 	else:
